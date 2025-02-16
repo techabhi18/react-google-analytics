@@ -9,10 +9,23 @@ function AnalyticsTracker() {
         ReactGA.send({ hitType: "pageview", page: location.pathname });
 
         const handleClick = (event) => {
+            const element = event.target;
+
+            const tag = element.tagName;
+            const id = element.id ? `#${element.id}` : "";
+            const classes = element.className
+                ? `.${element.className.trim().split(" ").join(".")}`
+                : "";
+            const text = element.innerText
+                ? element.innerText.trim().substring(0, 100)
+                : "";
+
+            const label = `Element: ${tag}${id}${classes} | Text: "${text}" | Page: ${location.pathname}`;
+
             ReactGA.event({
                 category: "User Interaction",
-                action: "Clicked Page",
-                label: `Clicked at X: ${event.clientX}, Y: ${event.clientY} on ${location.pathname}`,
+                action: "Element Click",
+                label: label,
             });
         };
 
